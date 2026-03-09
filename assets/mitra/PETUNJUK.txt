@@ -1,0 +1,33 @@
+PETUNJUK LOGO MITRA PERUSAHAAN
+================================
+
+LANGKAH 1 — Taruh file logo di folder ini
+  Nama file = nama perusahaan (boleh pakai spasi)
+  Contoh:
+    Toyota Industries.png
+    Honda Technical.png
+    Fujitsu.png
+    Kajima.png
+    Yamaha Motor.png
+    Panasonic.png
+
+LANGKAH 2 — Edit konfigurasi di index.html
+  Buka index.html, cari bagian:
+    ✏️  KONFIGURASI MITRA PERUSAHAAN
+  Edit array MITRA_LIST:
+    { file: "NamaFile.png",  nama: "Nama Tampil" },
+
+Contoh:
+  { file: "Toyota Industries.png",  nama: "Toyota Industries"  },
+  { file: "Honda.png",              nama: "Honda Motor Co."    },
+
+Syarat file:
+- Format  : PNG atau JPG
+- Nama    : sesuai yang Anda tulis di array MITRA_LIST
+- Latar   : transparan (PNG) atau putih (JPG)
+- Ukuran  : minimal 300px lebar untuk kualitas baik
+
+Efek otomatis:
+  ✓ Grid 3 kolom, logo + nama perusahaan di bawahnya
+  ✓ Default grayscale → hover: full warna
+  ✓ Bisa tambah lebih dari 6 mitra (otomatis wrap ke baris baru)

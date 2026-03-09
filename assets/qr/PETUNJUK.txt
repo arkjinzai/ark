@@ -1,0 +1,18 @@
+PETUNJUK QR CODE
+=================
+
+Taruh file QR code di folder ini dengan nama:
+
+  qr-daftar.png
+
+QR code ini mengarah ke link pendaftaran:
+  https://forms.gle/hBiBBujfuPVLugC48
+
+Syarat file:
+- Format  : PNG
+- Nama    : qr-daftar.png (huruf kecil semua)
+- Ukuran  : minimal 300x300px untuk kualitas baik
+- Latar   : putih (untuk kejelasan scan)
+
+QR code akan tampil di bagian CTA atas footer (banner hijau).
+Jika file belum ada, kotak QR tampil kosong (tidak error).

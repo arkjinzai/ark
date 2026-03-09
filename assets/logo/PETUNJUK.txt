@@ -1,0 +1,17 @@
+PETUNJUK PENGGUNAAN LOGO
+========================
+
+Letakkan file logo PNG Anda di folder ini dengan nama:
+
+  logo.png
+
+Syarat file:
+- Format  : PNG (dengan latar belakang transparan / transparent background)
+- Nama    : logo.png  (huruf kecil semua)
+- Ukuran  : bebas, disarankan minimal 400px lebar untuk kualitas tampilan terbaik
+- Latar   : transparan (agar logo terlihat bagus di navbar putih dan footer gelap)
+
+Setelah file ditaruh di sini, logo akan otomatis muncul:
+  ✓ Navbar (kiri atas)
+  ✓ Footer (kiri bawah) — otomatis diubah warna putih
+  ✓ Hero 3D (tengah kanan) — melayang & berotasi pelan dengan efek glow

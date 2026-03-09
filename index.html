@@ -1,0 +1,2889 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LPK ARK JINZAI SOLUSI — Lembaga Pelatihan Kerja ke Jepang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & TOKENS
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #00420f;
+      --navy-dark:   #00350b;
+      --navy-mid:    #8B7200;
+      --navy-light:  #EFBF04;
+      --red:         #0B6B2C;
+      --red-bright:  #0D8836;
+      --white:       #FFFFFF;
+      --off-white:   #FFFDF0;
+      --gray-50:     #FBF8E8;
+      --gray-100:    #F2EEC8;
+      --gray-300:    #C8BA80;
+      --gray-500:    #8A7E50;
+      --gray-700:    #5C5230;
+      --text:        #1A1400;
+      --text-soft:   #3D3618;
+      --radius-sm:   8px;
+      --radius-md:   16px;
+      --radius-lg:   24px;
+      --shadow-sm:   0 2px 12px rgba(166,136,0,.10);
+      --shadow-md:   0 8px 32px rgba(166,136,0,.14);
+      --shadow-lg:   0 24px 64px rgba(166,136,0,.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* ============================================================
+       SPLASH SCREEN
+    ============================================================ */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--navy-dark);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden;
+      transition: opacity .6s ease, transform .7s cubic-bezier(.76,0,.24,1);
+    }
+    #splash.hide {
+      opacity: 0;
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+
+    /* Kanji watermark */
+    .splash-kanji {
+      position: absolute;
+      font-family: 'MS Mincho', 'MS 明朝', 'Yu Mincho', 'YuMincho', serif;
+      font-size: clamp(28px, 7vw, 120px);
+      font-weight: 900;
+      color: rgba(239,191,4,.06);
+      user-select: none; pointer-events: none;
+      letter-spacing: .18em;
+      line-height: 1;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Sakura petals */
+    .splash-petal {
+      position: absolute;
+      width: 10px; height: 10px;
+      background: radial-gradient(circle at 40% 35%, #fff 20%, rgba(239,191,4,.45) 100%);
+      border-radius: 150% 0 150% 0;
+      opacity: 0;
+      animation: petalFall linear infinite;
+      pointer-events: none;
+    }
+    @keyframes petalFall {
+      0%   { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+      10%  { opacity: .55; }
+      90%  { opacity: .4; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Center content */
+    .splash-center {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0;
+    }
+
+    /* Logo circle */
+    .splash-logo-wrap {
+      display: flex; align-items: center; justify-content: center;
+      animation: splashLogoIn .8s cubic-bezier(.34,1.56,.64,1) .2s both;
+    }
+    .splash-logo-wrap img {
+      width: 120px; height: 120px; object-fit: contain;
+    }
+    @keyframes splashLogoIn {
+      from { opacity: 0; transform: scale(.6) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Brand text */
+    .splash-brand {
+      margin-top: 28px;
+      text-align: center;
+      animation: splashTextIn .7s ease .55s both;
+    }
+    .splash-brand-main {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(18px, 3.5vw, 26px);
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .splash-brand-main em {
+      font-style: normal;
+      color: var(--navy-light);
+    }
+    .splash-brand-sub {
+      margin-top: 6px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(11px, 1.4vw, 13px);
+      font-weight: 400;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(239,191,4,.65);
+    }
+    @keyframes splashTextIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Divider line */
+    .splash-divider {
+      width: 48px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(239,191,4,.6), transparent);
+      margin: 20px auto 0;
+      animation: splashTextIn .6s ease .75s both;
+    }
+
+    /* Progress bar */
+    .splash-progress {
+      margin-top: 48px;
+      width: clamp(180px, 30vw, 260px);
+      animation: splashTextIn .5s ease .85s both;
+    }
+    .splash-progress-track {
+      height: 2px;
+      background: rgba(255,255,255,.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .splash-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--navy-light), rgba(255,255,255,.9));
+      border-radius: 2px;
+      transition: width .05s linear;
+    }
+    .splash-progress-label {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Decorative corner lines */
+    .splash-corner {
+      position: absolute;
+      width: 40px; height: 40px;
+      border-color: rgba(239,191,4,.3);
+      border-style: solid;
+      opacity: 0;
+      animation: splashCornerIn .6s ease 1s both;
+    }
+    .splash-corner.tl { top: 32px; left: 32px; border-width: 1px 0 0 1px; }
+    .splash-corner.tr { top: 32px; right: 32px; border-width: 1px 1px 0 0; }
+    .splash-corner.bl { bottom: 32px; left: 32px; border-width: 0 0 1px 1px; }
+    .splash-corner.br { bottom: 32px; right: 32px; border-width: 0 1px 1px 0; }
+    @keyframes splashCornerIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* Body lock while splash is visible */
+    body.splash-open { overflow: hidden; }
+
+    body {
+      font-family: 'Poppins', 'Noto Sans JP', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      height: 70px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%;
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    #nav.scrolled {
+      border-color: var(--gray-100);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo-img {
+      height: 44px; width: auto;
+      max-width: 160px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      line-height: 1.2;
+    }
+    .nav-logo-text .nl-main {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -.3px;
+      white-space: nowrap;
+    }
+    .nav-logo-text .nl-main em {
+      font-style: normal;
+      color: var(--red);
+    }
+    .nav-logo-text .nl-sub {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--gray-500);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    /* divider garis tipis antara logo img dan teks */
+    .nav-logo-divider {
+      width: 1px;
+      height: 32px;
+      background: var(--gray-100);
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 34px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 13.5px; font-weight: 500; color: var(--text-soft);
+      letter-spacing: .1px; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--navy); }
+
+    .nav-btn {
+      background: var(--navy); color: #fff !important;
+      padding: 9px 22px; border-radius: var(--radius-sm);
+      font-weight: 700 !important;
+      transition: background .2s, transform .2s !important;
+    }
+    .nav-btn:hover { background: var(--navy-dark) !important; transform: translateY(-1px); }
+
+    /* Language Switcher */
+    .lang-switcher { position: relative; display: flex; align-items: center; margin-left: 12px; }
+    .lang-btn {
+      background: rgba(239,191,4,.1); border: 1px solid rgba(239,191,4,.3); color: var(--navy);
+      padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 6px; transition: all .3s; font-family: 'Poppins', 'Noto Sans JP', sans-serif;
+    }
+    .lang-btn:hover { background: rgba(239,191,4,.2); border-color: var(--navy-light); }
+    .lang-btn span { font-size: 10px; }
+    .lang-menu {
+      position: absolute; top: 100%; right: 0; margin-top: 8px;
+      background: #fff; border-radius: 8px; padding: 8px; min-width: 140px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.15);
+      opacity: 0; visibility: hidden; transform: translateY(10px);
+      transition: all .3s; z-index: 99; font-family: 'Poppins', 'Noto Sans JP', sans-serif;
+    }
+    .lang-menu.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .lang-menu a {
+      display: block; padding: 8px 12px; color: var(--navy); font-size: 13px;
+      text-decoration: none; border-radius: 4px; transition: background .2s; font-weight: 500;
+    }
+    .lang-menu a:hover { background: #f0f0f0; color: var(--red); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 100px 6% 72px;
+      background:
+        linear-gradient(160deg, #FFFFFF 0%, #F9F6E8 45%, #EEF5EE 100%);
+      position: relative; overflow: hidden;
+    }
+
+    /* Large faded watermark kanji (removed) */
+
+    /* Geometric accent circles */
+    .hero-bg-circle {
+      position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .hero-bg-circle.c1 {
+      width: 800px; height: 800px;
+      right: -200px; top: -260px;
+      background: radial-gradient(circle, rgba(11,107,44,.05) 0%, transparent 65%);
+    }
+    .hero-bg-circle.c2 {
+      width: 600px; height: 600px;
+      left: -180px; bottom: -200px;
+      background: radial-gradient(circle, rgba(239,191,4,.07) 0%, transparent 65%);
+    }
+    /* Dot grid pattern */
+    .hero-bg-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(rgba(166,136,0,.18) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+      opacity: .5;
+    }
+
+    /* Left accent bar */
+    .hero-inner {
+      display: flex; align-items: center;
+      width: 100%; gap: 60px;
+      position: relative; z-index: 1;
+    }
+
+    .hero-text {
+      flex: 1;
+      max-width: 600px;
+      padding-left: 28px;
+      border-left: 3px solid var(--red);
+      position: relative;
+    }
+    /* Gold top pip on accent bar */
+    .hero-text::before {
+      content: '';
+      position: absolute; left: -5px; top: 0;
+      width: 7px; height: 7px;
+      background: var(--navy-light);
+      border-radius: 50%;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 100px;
+      background: rgba(11,107,44,.08);
+      border: 1px solid rgba(11,107,44,.2);
+      color: var(--red);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--red); border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .5; transform: scale(1.3); }
+    }
+
+    .hero-kana {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 13px; font-weight: 300;
+      color: rgba(0, 0, 0, 0.6);
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+
+    .hero-h1 {
+      font-size: clamp(42px, 5.2vw, 72px);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--navy-dark);
+      letter-spacing: -2.5px;
+      margin-bottom: 28px;
+    }
+    .hero-h1 .accent {
+      color: var(--red); position: relative; display: inline-block;
+    }
+    .hero-h1 .accent::after {
+      content: '';
+      position: absolute; bottom: 3px; left: 0; right: 0;
+      height: 5px;
+      background: var(--red);
+      border-radius: 3px; opacity: .2;
+    }
+    .hero-h1 .gold {
+      color: var(--navy-light);
+    }
+
+    .hero-lead {
+      font-size: 16px; color: var(--gray-700);
+      line-height: 1.85; margin-bottom: 40px;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .btn-red {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--red); color: #fff;
+      padding: 15px 34px; border-radius: var(--radius-sm);
+      font-size: 14.5px; font-weight: 700; letter-spacing: .3px;
+      box-shadow: 0 8px 28px rgba(11,107,44,.30);
+      transition: background .2s, transform .25s, box-shadow .25s;
+    }
+    .btn-red:hover {
+      background: var(--red-bright);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px rgba(11,107,44,.40);
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--navy); font-size: 14.5px; font-weight: 600;
+      padding: 15px 20px;
+      border: 1.5px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      transition: all .2s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--navy);
+      background: rgba(166,136,0,.05);
+    }
+
+    /* Stats row */
+    .hero-mini-stats {
+      display: flex; gap: 0;
+      margin-top: 48px; padding-top: 36px;
+      border-top: 1px solid rgba(239,191,4,.25);
+    }
+    .hms-item {
+      display: flex; flex-direction: column;
+      padding-right: 32px; margin-right: 32px;
+      border-right: 1px solid rgba(239,191,4,.2);
+    }
+    .hms-item:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+    .hms-num {
+      font-size: 36px; font-weight: 900; color: var(--navy);
+      letter-spacing: -1px; line-height: 1;
+    }
+    .hms-lbl {
+      font-size: 14px; color: var(--gray-500);
+      font-weight: 600; letter-spacing: .8px;
+      text-transform: uppercase; margin-top: 6px;
+    }
+
+    /* Hero 3D canvas area */
+    .hero-3d {
+      flex: 0 0 640px;
+      height: 640px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      margin-right: -6%;
+    }
+
+    /* Frosted glass card behind canvas (removed) */
+
+    #toriiCanvas {
+      width: 100%; height: 100%;
+      border-radius: 32px;
+      position: relative; z-index: 1;
+    }
+
+    /* Floating feature tags */
+    .hero-tag {
+      position: absolute; z-index: 2;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.95);
+      border: 1px solid var(--gray-100);
+      border-radius: 100px;
+      padding: 8px 16px 8px 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      white-space: nowrap;
+      animation: floatTag 3s ease-in-out infinite;
+    }
+    .hero-tag:nth-child(2) { animation-delay: -1s; }
+    .hero-tag:nth-child(3) { animation-delay: -2s; }
+    @keyframes floatTag {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-5px); }
+    }
+    .hero-tag.t1 { top: 42px;  left: -48px; }
+    .hero-tag.t2 { top: 50%;   left: -64px; transform: translateY(-50%); }
+    .hero-tag.t3 { bottom: 60px; right: 16px; }
+    .hero-tag-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-tag-dot svg { width: 14px; height: 14px; }
+    .hero-tag-text strong {
+      display: block; font-size: 12px; font-weight: 800;
+      color: var(--navy-dark); line-height: 1.2;
+    }
+    .hero-tag-text span {
+      font-size: 10px; color: var(--gray-500); font-weight: 500;
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--gray-500); font-size: 10px; letter-spacing: 1.5px;
+      text-transform: uppercase; font-weight: 700;
+      animation: scrollBounce 2.2s ease-in-out infinite;
+      z-index: 1;
+    }
+    .scroll-hint svg { width: 18px; height: 18px; stroke: var(--gray-300); }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: .8; }
+      50%       { transform: translateX(-50%) translateY(7px); opacity: .4; }
+    }
+
+    /* ============================================================
+       SECTION SHARED
+    ============================================================ */
+    section { padding: 108px 6%; }
+
+    .s-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red); margin-bottom: 14px;
+    }
+    .s-title {
+      font-size: clamp(28px, 3vw, 46px);
+      font-weight: 800; color: var(--navy-dark);
+      letter-spacing: -1.2px; line-height: 1.18;
+      margin-bottom: 18px;
+    }
+    .s-lead {
+      font-size: 16px; color: var(--gray-700);
+      line-height: 1.8; max-width: 540px;
+    }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    #about { background: var(--white); }
+
+    .about-wrap {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+
+    .about-body {
+      font-size: 15.5px; color: var(--text-soft);
+      line-height: 1.85; margin: 20px 0 34px;
+    }
+
+    .feat-list { display: flex; flex-direction: column; gap: 18px; }
+
+    .feat-item {
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .feat-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: rgba(11,107,44,.07);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .feat-icon svg { width: 18px; height: 18px; stroke: var(--red); fill: none; stroke-width: 1.8; }
+    .feat-text strong {
+      display: block; font-size: 14px; font-weight: 700;
+      color: var(--navy); margin-bottom: 2px;
+    }
+    .feat-text span { font-size: 13.5px; color: var(--gray-700); line-height: 1.6; }
+
+    /* Stats panel */
+    .stats-panel {
+      background: var(--navy);
+      border-radius: var(--radius-lg);
+      padding: 48px 44px;
+      position: relative; overflow: hidden;
+    }
+    .stats-panel::before {
+      content: '日本';
+      position: absolute; right: -10px; top: -20px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 140px; font-weight: 700;
+      color: rgba(255,255,255,.03);
+      line-height: 1; pointer-events: none;
+      letter-spacing: -8px;
+    }
+    .stats-panel::after {
+      content: '';
+      position: absolute; bottom: -80px; left: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(11,107,44,.1);
+      pointer-events: none;
+    }
+
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; position: relative; z-index: 1;
+    }
+    .stat-box {
+      padding: 28px 24px 28px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .stat-box:nth-child(even) {
+      padding-left: 28px; padding-right: 0;
+      border-left: 1px solid rgba(255,255,255,.08);
+    }
+    .stat-box:nth-child(3), .stat-box:nth-child(4) { border-bottom: none; }
+
+    .stat-n {
+      font-size: 72px; font-weight: 900; color: #fff;
+      letter-spacing: -3px; line-height: 1;
+      margin-bottom: 12px;
+    }
+    .stat-n sup { font-size: 40px; color: var(--red); letter-spacing: 0; }
+    .stat-label { font-size: 16px; color: rgba(255,255,255,.45); letter-spacing: .5px; }
+    .stat-sub { font-size: 11px; color: rgba(255,255,255,.25); margin-top: 3px; }
+
+    /* ============================================================
+       PROGRAMS
+    ============================================================ */
+    #programs { background: var(--off-white); }
+
+    .prog-head { text-align: center; margin-bottom: 64px; }
+    .prog-head .s-lead { margin: 0 auto; }
+
+    .prog-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;
+    }
+
+    .prog-card {
+      background: #fff; border-radius: var(--radius-lg);
+      padding: 40px 34px; border: 1px solid var(--gray-100);
+      position: relative; overflow: hidden;
+      transition: transform .4s cubic-bezier(.165,.84,.44,1), box-shadow .4s, border-color .3s;
+      cursor: default;
+    }
+    .prog-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--navy), var(--red));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s ease;
+    }
+    .prog-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: transparent; }
+    .prog-card:hover::after { transform: scaleX(1); }
+
+    .prog-icon {
+      width: 58px; height: 58px;
+      background: var(--gray-50);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 26px;
+      transition: background .3s;
+    }
+    .prog-card:hover .prog-icon { background: rgba(239,191,4,.12); }
+    .prog-icon svg { width: 30px; height: 30px; stroke: var(--navy); fill: none; stroke-width: 1.5; }
+
+    .prog-tag { font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+    .prog-title { font-size: 21px; font-weight: 800; color: var(--navy-dark); letter-spacing: -.4px; margin-bottom: 14px; }
+    .prog-desc { font-size: 14px; color: var(--gray-700); line-height: 1.75; margin-bottom: 26px; }
+
+    .prog-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 30px; }
+    .prog-features li {
+      font-size: 13px; color: var(--text-soft);
+      display: flex; align-items: center; gap: 9px;
+    }
+    .prog-features li::before {
+      content: '✓';
+      width: 20px; height: 20px; flex-shrink: 0;
+      background: rgba(239,191,4,.12); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800; color: var(--navy);
+    }
+
+    .prog-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; color: var(--navy);
+      transition: gap .2s;
+    }
+    .prog-link:hover { gap: 11px; }
+    .prog-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+    /* ============================================================
+       GALLERY
+    ============================================================ */
+    #gallery { background: var(--white); }
+
+    .gallery-top {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 48px;
+    }
+
+    /* Masonry columns */
+    .gallery-masonry {
+      columns: 4;
+      column-gap: 14px;
+    }
+    .g-item {
+      break-inside: avoid;
+      border-radius: var(--radius-md);
+      overflow: hidden; position: relative;
+      cursor: pointer;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .g-item img {
+      width: 100%; height: auto;
+      display: block;
+      transition: transform .45s ease;
+    }
+    .g-item:hover img { transform: scale(1.05); }
+
+    .g-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,35,11,.75) 0%, transparent 60%);
+      opacity: 0; transition: opacity .3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .g-item:hover .g-overlay { opacity: 1; }
+    .g-overlay-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      border: 1.5px solid rgba(255,255,255,.5);
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .g-overlay-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
+
+    /* Show more */
+    .gallery-more {
+      display: none;
+    }
+    .gallery-show-btn {
+      display: flex; justify-content: center;
+      margin-top: 40px;
+    }
+    .btn-gallery-more {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 32px;
+      border: 1.5px solid var(--navy-light);
+      border-radius: 100px;
+      color: var(--navy);
+      font-size: 14px; font-weight: 600;
+      background: transparent;
+      cursor: pointer;
+      transition: background .25s, color .25s;
+    }
+    .btn-gallery-more:hover { background: var(--navy-light); color: #fff; }
+    .btn-gallery-more svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+    /* Lightbox */
+    #galeriLightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,.92);
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    #galeriLightbox.open { display: flex; }
+    #galeriLightbox img {
+      max-width: 90vw; max-height: 88vh;
+      border-radius: 10px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.6);
+      object-fit: contain;
+      display: block;
+    }
+    .lb-close {
+      position: fixed; top: 20px; right: 24px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      color: #fff; font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 9001;
+      line-height: 1;
+    }
+    .lb-close:hover { background: rgba(255,255,255,.25); }
+    .lb-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      color: #fff; font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 9001;
+      user-select: none;
+    }
+    .lb-nav:hover { background: rgba(255,255,255,.25); }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+
+    /* ============================================================
+       LEGAL / IZIN LEMBAGA
+    ============================================================ */
+    #legal {
+      background: var(--gray-50);
+    }
+    .legal-head {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .legal-sub {
+      max-width: 760px;
+      margin: 14px auto 0;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-soft);
+    }
+    .legal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .legal-card {
+      background: #fff;
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform .25s ease, box-shadow .25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .legal-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .legal-imgs {
+      display: flex;
+      gap: 10px;
+      padding: 16px;
+      background: #f8f8f8;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      overflow-x: auto;
+    }
+    .legal-imgs a {
+      flex: 0 1 140px;
+      display: block;
+      min-width: 60px;
+    }
+    .legal-imgs img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3/4;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid #eaeaea;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border-radius: 4px;
+      transition: transform .2s;
+    }
+    .legal-imgs a:hover img {
+      transform: scale(1.04);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+    .legal-caption {
+      padding: 14px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--gray-700);
+      text-align: center;
+      border-top: 1px solid var(--gray-100);
+      background: #fff;
+    }
+
+    /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+    #testimonials {
+      background: var(--navy);
+      position: relative; overflow: hidden;
+    }
+    #testimonials::before {
+      content: '';
+      position: absolute; top: -120px; right: -120px;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: rgba(11,107,44,.07); pointer-events: none;
+    }
+    #testimonials::after {
+      content: '';
+      position: absolute; bottom: -180px; left: -80px;
+      width: 550px; height: 550px; border-radius: 50%;
+      background: rgba(255,255,255,.03); pointer-events: none;
+    }
+
+    .testi-head { text-align: center; margin-bottom: 60px; position: relative; z-index: 1; }
+    .testi-head .s-tag { color: rgba(255,255,255,.4); }
+    .testi-head .s-title { color: #fff; }
+
+    .testi-wrap { position: relative; z-index: 1; padding: 0 64px; }
+    .testi-track {
+      display: flex; gap: 26px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 24px;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+    .testi-track::-webkit-scrollbar { display: none; }
+    
+    .testi-card {
+      width: clamp(300px, 30vw, 420px); flex-shrink: 0;
+      scroll-snap-align: start;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-lg);
+      padding: 34px 28px;
+      backdrop-filter: blur(12px);
+      transition: background .3s;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .testi-card:hover { background: rgba(255,255,255,.1); }
+
+    .testi-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff; font-size: 32px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 2;
+      user-select: none;
+      transition: background .3s, transform .3s, border-color .3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+      backdrop-filter: blur(8px);
+    }
+    .testi-nav:hover { 
+      background: var(--navy-light); 
+      border-color: var(--navy-light);
+      transform: translateY(-50%) scale(1.1);
+    }
+    .testi-nav.prev { left: 16px; }
+    .testi-nav.next { right: 16px; }
+
+    .testi-stars { color: #FFC107; font-size: 13px; letter-spacing: 2px; margin-bottom: 6px; }
+    .testi-quote { font-size: 44px; line-height: 1; color: var(--red); opacity: .65; margin-bottom: 18px; }
+    .testi-body {
+      font-size: 14.5px; color: rgba(255,255,255,.75);
+      line-height: 1.85; margin-bottom: 30px;
+    }
+
+    .testi-author { display: flex; align-items: center; gap: 14px; }
+    .testi-av {
+      width: 50px; height: 50px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 15px; color: #fff;
+      border: 2px solid rgba(255,255,255,.2); flex-shrink: 0;
+    }
+    .testi-name { font-size: 14px; font-weight: 700; color: #fff; }
+    .testi-role { font-size: 12px; color: rgba(255,255,255,.45); margin-top: 2px; }
+
+
+    /* ============================================================
+       PARTNERS
+    ============================================================ */
+    #partners { background: var(--off-white); }
+
+    .partners-head { text-align: center; margin-bottom: 56px; }
+
+    .partners-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--gray-100);
+      background: var(--gray-100);
+      gap: 1px;
+    }
+    .p-item {
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: #fff;
+      opacity: .5;
+      filter: grayscale(100%);
+      transition: opacity .4s, filter .4s, background .3s, transform .3s;
+      min-height: 140px;
+      cursor: default;
+    }
+    .p-item:hover {
+      opacity: 1;
+      filter: grayscale(0%);
+      background: var(--off-white);
+      transform: scale(1.02);
+      z-index: 1;
+    }
+    .p-logo-img {
+      height: 54px; width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      display: block;
+    }
+    .p-logo-name {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* ============================================================
+       FOOTER — CTA BAND
+    ============================================================ */
+    .footer-cta {
+      background: linear-gradient(135deg, var(--red) 0%, #084D1E 100%);
+      padding: 48px 6%;
+    }
+    .footer-cta-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 40px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .footer-cta-left { flex: 1; }
+    .footer-cta-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,.6);
+      margin-bottom: 10px;
+    }
+    .footer-cta-title {
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 900; color: #fff;
+      letter-spacing: -1px; line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .footer-cta-title em {
+      font-style: normal;
+      color: var(--navy-light);
+    }
+    .footer-cta-sub {
+      font-size: 14px; color: rgba(255,255,255,.7);
+      margin-bottom: 20px; line-height: 1.6;
+    }
+    .footer-cta-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--navy-light); color: var(--navy-dark) !important;
+      padding: 12px 24px; border-radius: var(--radius-sm);
+      font-size: 13px; font-weight: 800; letter-spacing: .3px;
+      word-break: break-all;
+      transition: opacity .2s;
+    }
+    .footer-cta-link:hover { opacity: .85; }
+    .footer-cta-link svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .footer-cta-right {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      flex-shrink: 0;
+    }
+    .footer-cta-qr {
+      width: 140px; height: 140px;
+      background: #fff; border-radius: 12px;
+      padding: 8px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    }
+    .footer-cta-qr img {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+    .footer-cta-scan {
+      font-size: 11px; font-weight: 700; color: rgba(255,255,255,.6);
+      letter-spacing: 1px; text-transform: uppercase; text-align: center;
+    }
+
+    /* ============================================================
+       FOOTER — MAIN BODY
+    ============================================================ */
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,.55);
+      padding: 64px 6% 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1.8fr 1fr;
+      gap: 52px;
+      padding-bottom: 52px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    /* Col 1 — Brand */
+    .f-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .f-logo-img {
+      height: 46px; width: auto; max-width: 200px;
+      object-fit: contain;
+      filter: brightness(0) invert(1); opacity: .9;
+    }
+    .f-desc {
+      font-size: 13px; line-height: 1.85; color: rgba(255,255,255,.38);
+      margin-bottom: 24px;
+    }
+    .f-col-title {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,.9); margin-bottom: 18px;
+    }
+    /* Social handles */
+    .f-social-handles {
+      display: flex; flex-direction: column; gap: 8px; margin-top: 20px;
+    }
+    .f-handle-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12.5px; color: rgba(255,255,255,.5);
+    }
+    .f-handle-icon {
+      width: 28px; height: 28px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .f-handle-icon svg { width: 14px; height: 14px; fill: #fff; }
+    .f-handle-icon.fb { background: #1877F2; }
+    .f-handle-icon.ig { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .f-handle-icon.tt { background: #010101; }
+    .f-handle-icon.yt { background: #FF0000; }
+    .f-handle-name { color: rgba(255,255,255,.6); }
+
+    /* Col 2 — Addresses */
+    .f-addr-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 28px 32px;
+    }
+    .f-addr-region { }
+    .f-addr-region-title {
+      font-size: 12px; font-weight: 800;
+      color: var(--navy-light);
+      letter-spacing: .3px;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .f-addr-region-title::before {
+      content: '';
+      width: 3px; height: 14px;
+      background: var(--red);
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .f-addr-list {
+      list-style: none; display: flex; flex-direction: column; gap: 8px;
+    }
+    .f-addr-list li {
+      font-size: 12px; color: rgba(255,255,255,.4);
+      line-height: 1.65; padding-left: 12px;
+      position: relative;
+    }
+    .f-addr-list li::before {
+      content: counter(li);
+      counter-increment: li;
+      position: absolute; left: 0;
+      color: rgba(255,255,255,.25);
+      font-size: 10px; font-weight: 700;
+    }
+    .f-addr-list { counter-reset: li; }
+
+    /* Col 3 — Contact */
+    .f-wa-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .f-wa-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,.07);
+      transition: background .2s;
+      cursor: pointer;
+    }
+    .f-wa-item:hover { background: rgba(37,211,102,.15); border-color: rgba(37,211,102,.3); }
+    .f-wa-icon {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .f-wa-icon svg { width: 16px; height: 16px; fill: #fff; }
+    .f-wa-num { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.8); }
+
+    .f-links { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .f-links a {
+      font-size: 13px; color: rgba(255,255,255,.38);
+      transition: color .2s;
+    }
+    .f-links a:hover { color: rgba(255,255,255,.85); }
+
+    /* Footer bottom */
+    .footer-bottom {
+      padding: 24px 0 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .f-copy { font-size: 12px; color: rgba(255,255,255,.22); }
+    .f-bottom-socials { display: flex; gap: 8px; }
+    .f-soc-btn {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.06); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .2s;
+    }
+    .f-soc-btn:hover { background: rgba(255,255,255,.13); }
+    .f-soc-btn svg { width: 15px; height: 15px; fill: rgba(255,255,255,.45); }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal.d1 { transition-delay: .1s; }
+    .reveal.d2 { transition-delay: .2s; }
+    .reveal.d3 { transition-delay: .3s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    /* ============================================================
+       HAMBURGER MENU
+    ============================================================ */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px; height: 40px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      transition: background .2s;
+      z-index: 1001;
+    }
+    .nav-hamburger:hover { background: var(--gray-50); }
+    .nav-hamburger span {
+      display: block;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: transform .3s ease, opacity .3s ease, width .3s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger span:nth-child(1) { width: 24px; }
+    .nav-hamburger span:nth-child(2) { width: 18px; }
+    .nav-hamburger span:nth-child(3) { width: 24px; }
+
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); width: 24px; }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); width: 24px; }
+
+    /* Mobile nav drawer */
+    .nav-mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 70px; left: 0; right: 0;
+      background: rgba(255,255,255,.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--gray-100);
+      box-shadow: 0 8px 32px rgba(0,0,0,.08);
+      z-index: 899;
+      padding: 20px 5% 28px;
+      transform: translateY(-10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform .3s ease, opacity .3s ease;
+    }
+    .nav-mobile-drawer.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+    .nav-mobile-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-mobile-links a {
+      display: block;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-soft);
+      border-radius: var(--radius-sm);
+      transition: background .2s, color .2s;
+    }
+    .nav-mobile-links a:hover { background: var(--gray-50); color: var(--navy); }
+    .nav-mobile-cta {
+      display: block;
+      margin-top: 12px;
+      background: var(--red);
+      color: #fff !important;
+      text-align: center;
+      padding: 14px 16px !important;
+      border-radius: var(--radius-sm);
+      font-weight: 700 !important;
+    }
+    .nav-mobile-cta:hover { background: var(--red-bright) !important; }
+
+    /* ============================================================
+       ≤ 1280px — Large tablet / small desktop
+    ============================================================ */
+    @media (max-width: 1280px) {
+      .hero-h1 { font-size: 52px; }
+      .hero-3d { flex: 0 0 520px; height: 520px; margin-right: -5%; }
+      .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 36px; }
+    }
+
+    /* ============================================================
+       ≤ 1024px — Tablet landscape
+    ============================================================ */
+    @media (max-width: 1024px) {
+      section { padding: 88px 5%; }
+      .about-wrap { grid-template-columns: 1fr; gap: 52px; }
+      .stats-panel { padding: 40px 36px; }
+      .prog-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-h1 { font-size: 46px; letter-spacing: -1.5px; }
+      .hero-3d { flex: 0 0 420px; height: 440px; margin-right: -4%; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .testi-card { width: clamp(280px, 40vw, 360px); }
+      .nav-links { gap: 22px; }
+      .nav-links a { font-size: 13px; }
+      .gallery-masonry { columns: 3; }
+    }
+
+    /* ============================================================
+       ≤ 768px — Tablet portrait / large phone
+    ============================================================ */
+    @media (max-width: 768px) {
+      /* Navbar */
+      #nav { padding: 0 5%; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-drawer { display: block; }
+      .nav-logo-text .nl-sub { display: none; }
+      .nav-logo-divider { display: none; }
+
+      /* Hero */
+      #hero { padding: 86px 5% 64px; min-height: auto; }
+      .hero-inner { flex-direction: column-reverse; gap: 24px; }
+      .hero-text { max-width: 100%; text-align: center; padding-left: 0; border-left: none; }
+      .hero-text::before { display: none; }
+      .hero-badge { margin-left: auto; margin-right: auto; }
+      .hero-kana { text-align: center; }
+      .hero-h1 { font-size: 40px; letter-spacing: -1.2px; }
+      .hero-h1 .accent::after { bottom: 0; }
+      .hero-lead { font-size: 15px; margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .hero-mini-stats { justify-content: center; gap: 0; }
+      .hms-item { padding-right: 24px; margin-right: 24px; }
+      .hero-3d { width: 100%; flex: none; height: 320px; margin-right: 0; }
+      #toriiCanvas { height: 320px; }
+      .hero-tag { display: none; }
+      .scroll-hint { display: none; }
+
+      /* Sections */
+      section { padding: 72px 5%; }
+      .s-title { font-size: 28px; }
+
+      /* About */
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stat-n { font-size: 56px; }
+
+      /* Programs */
+      .prog-grid { grid-template-columns: 1fr; }
+      .prog-head { margin-bottom: 44px; }
+
+      /* Gallery */
+      .gallery-masonry { columns: 2; }
+      .gallery-top { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .legal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      /* Testimonials */
+      .testi-card { width: clamp(260px, 85vw, 400px); }
+      .testi-nav { width: 40px; height: 40px; font-size: 24px; }
+      .testi-nav.prev { left: 4px; }
+      .testi-nav.next { right: 4px; }
+      .testi-wrap { padding: 0 24px; }
+
+      /* Partners */
+      .partners-row { grid-template-columns: repeat(2, 1fr); }
+      .p-item { padding: 24px 20px; min-height: 110px; gap: 10px; }
+      .p-logo-img { height: 40px; max-width: 110px; }
+      .p-logo-name { font-size: 10px; }
+
+      /* Footer CTA */
+      .footer-cta { padding: 36px 5%; }
+      .footer-cta-inner { flex-direction: column; gap: 28px; }
+      .footer-cta-right { flex-direction: row; gap: 20px; align-items: center; }
+      .footer-cta-qr { width: 110px; height: 110px; }
+      /* Footer */
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+      .f-addr-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 52px 5% 0; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+
+    /* ============================================================
+       ≤ 480px — Standard phone
+    ============================================================ */
+    @media (max-width: 480px) {
+      .gallery-masonry { columns: 2; column-gap: 10px; }
+      .g-item { margin-bottom: 10px; border-radius: 8px; }
+      .legal-sub { font-size: 14px; }
+      .legal-caption { font-size: 11px; }
+      .legal-grid { grid-template-columns: 1fr; }
+
+      /* Navbar */
+      .nav-logo-img { height: 36px; max-width: 120px; }
+      .nav-logo-text .nl-main { font-size: 13px; }
+
+      /* Hero */
+      #hero { padding: 80px 4% 56px; }
+      .hero-h1 { font-size: 34px; letter-spacing: -1px; }
+      .hero-lead { font-size: 14.5px; }
+      .btn-red { padding: 13px 24px; font-size: 14px; }
+      .hero-mini-stats { gap: 0; flex-wrap: wrap; padding-top: 24px; margin-top: 28px; }
+      .hms-item { padding-right: 20px; margin-right: 20px; margin-bottom: 8px; }
+      .hms-num { font-size: 28px; }
+      .btn-ghost { padding: 13px 16px; font-size: 14px; }
+      .hero-3d { height: 280px; }
+      #toriiCanvas { height: 280px; }
+
+      /* Section */
+      section { padding: 60px 4%; }
+      .s-title { font-size: 24px; letter-spacing: -.5px; }
+      .s-lead { font-size: 14.5px; }
+
+      /* About */
+      .stats-panel { padding: 28px 24px; }
+      .stat-n { font-size: 48px; }
+      .stat-n sup { font-size: 28px; }
+      .stat-label { font-size: 14px; }
+      .stat-box { padding: 20px 16px 20px 0; }
+      .stat-box:nth-child(even) { padding-left: 16px; }
+
+      /* Programs */
+      .prog-card { padding: 30px 24px; }
+      .prog-title { font-size: 18px; }
+
+      /* Testimonials */
+      .testi-card { padding: 28px 24px; }
+      .testi-body { font-size: 13.5px; }
+
+      /* Partners */
+      .partners-row { grid-template-columns: repeat(2, 1fr); }
+      .p-item { padding: 20px 14px; min-height: 90px; gap: 8px; }
+      .p-logo-img { height: 34px; max-width: 90px; }
+      .p-logo-name { font-size: 9px; letter-spacing: .3px; }
+
+      /* Footer CTA */
+      .footer-cta-title { font-size: 20px; }
+      .footer-cta-qr { width: 90px; height: 90px; }
+      .footer-cta-link { font-size: 11.5px; padding: 10px 16px; }
+      /* Footer */
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .f-addr-grid { grid-template-columns: 1fr; }
+      .f-addr-region[style] { grid-column: span 1 !important; }
+      .f-logo-img { height: 38px; }
+      .f-bottom-socials { flex-wrap: wrap; }
+    }
+
+    /* ============================================================
+       ≤ 360px — Small phone
+    ============================================================ */
+    @media (max-width: 360px) {
+      .hero-h1 { font-size: 30px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .btn-red { text-align: center; justify-content: center; }
+      .btn-ghost { justify-content: center; }
+      .about-wrap { gap: 36px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stat-n { font-size: 40px; }
+      .partners-row { grid-template-columns: 1fr 1fr; }
+      .p-item { padding: 16px 10px; min-height: 80px; }
+      .p-logo-img { height: 28px; }
+      .testi-card { padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body class="splash-open">
+
+<!-- ================================================================
+     SPLASH SCREEN
+================================================================ -->
+<div id="splash">
+  <!-- Kanji watermark -->
+  <div class="splash-kanji">アーク ジンザイ ソルシ</div>
+
+  <!-- Decorative corners -->
+  <div class="splash-corner tl"></div>
+  <div class="splash-corner tr"></div>
+  <div class="splash-corner bl"></div>
+  <div class="splash-corner br"></div>
+
+  <!-- Sakura petals (generated by JS) -->
+  <div id="splashPetals"></div>
+
+  <!-- Main content -->
+  <div class="splash-center">
+    <div class="splash-logo-wrap">
+      <img src="assets/logo/logo.png" alt="ARK Jinzai Solusi Logo" />
+    </div>
+    <div class="splash-brand">
+      <div class="splash-brand-main">ARK JINZAI <em>SOLUSI</em></div>
+      <div class="splash-brand-sub">Lembaga Pelatihan Kerja ke Jepang</div>
+    </div>
+    <div class="splash-divider"></div>
+    <div class="splash-progress">
+      <div class="splash-progress-track">
+        <div class="splash-progress-bar" id="splashBar"></div>
+      </div>
+      <div class="splash-progress-label" id="splashLabel">Memuat…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     NAVBAR
+================================================================ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <img src="assets/logo/logo.png" alt="LPK ARK JINZAI SOLUSI" class="nav-logo-img">
+    <div class="nav-logo-divider"></div>
+    <div class="nav-logo-text">
+      <span class="nl-main">ARK JINZAI <em>SOLUSI</em></span>
+      <span class="nl-sub">Lembaga Pelatihan Kerja</span>
+    </div>
+  </a>
+  <div style="display:flex; align-items:center; gap:16px;">
+    <ul class="nav-links">
+      <li><a href="#about">Tentang Kami</a></li>
+      <li><a href="#programs">Program</a></li>
+      <li><a href="#gallery">Galeri</a></li>
+      <li><a href="#legal">Legalitas</a></li>
+      <li><a href="#partners">Mitra</a></li>
+      <li><a href="#testimonials">Testimoni</a></li>
+      <li><a href="#contact" class="nav-btn">Daftar Sekarang</a></li>
+    </ul>
+
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+      <button class="lang-btn" onclick="toggleLangMenu()">JP <span>▼</span></button>
+      <div class="lang-menu" id="langMenu">
+        <a href="javascript:void(0)" onclick="setLanguage('jp')">日本語 (JP)</a>
+        <a href="javascript:void(0)" onclick="setLanguage('id')">Bahasa (ID)</a>
+        <a href="javascript:void(0)" onclick="setLanguage('en')">English (EN)</a>
+      </div>
+    </div>
+
+    <!-- Hamburger button (mobile only) -->
+    <button class="nav-hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav-mobile-drawer" id="mobileDrawer">
+  <ul class="nav-mobile-links">
+    <li><a href="#about"         onclick="closeDrawer()">Tentang Kami</a></li>
+    <li><a href="#programs"      onclick="closeDrawer()">Program Pelatihan</a></li>
+    <li><a href="#gallery"       onclick="closeDrawer()">Galeri</a></li>
+    <li><a href="#legal"         onclick="closeDrawer()">Legalitas</a></li>
+    <li><a href="#partners"      onclick="closeDrawer()">Mitra Perusahaan</a></li>
+    <li><a href="#testimonials"  onclick="closeDrawer()">Testimoni</a></li>
+    <li><a href="#contact"       onclick="closeDrawer()" class="nav-mobile-cta">Daftar Sekarang →</a></li>
+  </ul>
+</div>
+
+<!-- ================================================================
+     SECTION 1 — HERO
+================================================================ -->
+<section id="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-bg-grid"></div>
+
+  <div class="hero-inner">
+    <!-- Text -->
+    <div class="hero-text">
+      <div class="hero-badge">ARK JINZAI SOLUSI</div>
+      <div class="hero-kana">日本でのキャリアを準備しよう</div>
+      <h1 class="hero-h1">
+        Persiapkan<br>
+        <span class="accent">Karirmu</span><br>
+        di <span class="gold">Jepang</span>
+      </h1>
+      <p class="hero-lead">
+        Raih impian bekerja di Jepang bersama lembaga pelatihan terpercaya. Program intensif bahasa, budaya, dan keahlian teknis untuk mempersiapkan Anda menjadi tenaga kerja profesional.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-red">
+          Daftar Sekarang
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#programs" class="btn-ghost">
+          Lihat Program
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="hero-mini-stats">
+        <div class="hms-item">
+          <span class="hms-num">20+</span>
+          <span class="hms-lbl">Tahun Pengalaman</span>
+        </div>
+        <div class="hms-item">
+          <span class="hms-num">100.000+</span>
+          <span class="hms-lbl">Lulusan Berhasil</span>
+        </div>
+        <div class="hms-item">
+          <span class="hms-num">100+</span>
+          <span class="hms-lbl">Mitra Perusahaan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Canvas + floating tags -->
+    <div class="hero-3d">
+      <!-- Floating tag 1 -->
+      <div class="hero-tag t1">
+        <div class="hero-tag-dot" style="background:rgba(11,107,44,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0B6B2C" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/></svg>
+        </div>
+        <div class="hero-tag-text">
+          <strong>JLPT Terstandar</strong>
+          <span>N3 / N4 tersertifikasi</span>
+        </div>
+      </div>
+      <!-- Floating tag 2 -->
+      <div class="hero-tag t2">
+        <div class="hero-tag-dot" style="background:rgba(239,191,4,.15)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#A68800" stroke-width="2.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="hero-tag-text">
+          <strong>99% Penempatan</strong>
+          <span>Tingkat tertinggi</span>
+        </div>
+      </div>
+      <!-- Floating tag 3 -->
+      <div class="hero-tag t3">
+        <div class="hero-tag-dot" style="background:rgba(26,19,0,.07)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7A5C00" stroke-width="2.5"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round"/></svg>
+        </div>
+        <div class="hero-tag-text">
+          <strong>100+ Perusahaan</strong>
+          <span>Mitra resmi di Jepang</span>
+        </div>
+      </div>
+
+      <canvas id="toriiCanvas"></canvas>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<!-- ================================================================
+     SECTION 2 — ABOUT
+================================================================ -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="reveal">
+      <div class="s-tag">Tentang Kami</div>
+      <h2 class="s-title">Jembatan Menuju<br>Karir Impian di Jepang</h2>
+      <p class="about-body">
+        LPK ARK JINZAI SOLUSI berdiri sejak 2012 sebagai lembaga pelatihan kerja ke Jepang yang terakreditasi. Lebih dari satu dekade, kami telah membantu ribuan tenaga kerja Indonesia meraih posisi profesional di perusahaan-perusahaan terkemuka Jepang.
+      </p>
+      <div class="feat-list">
+        <div class="feat-item">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="feat-text">
+            <strong>Kurikulum Terstandarisasi</strong>
+            <span>Materi mengikuti standar JLPT dan kebutuhan industri Jepang terkini</span>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="feat-text">
+            <strong>Pengajar Berpengalaman</strong>
+            <span>Tim pengajar bersertifikat dengan pengalaman hidup dan bekerja di Jepang</span>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="feat-text">
+            <strong>Penempatan Kerja Terjamin</strong>
+            <span>Jaringan 100+ mitra perusahaan Jepang dengan tingkat penempatan 99%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-panel reveal d2">
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-n" data-target="12">20<sup>+</sup></div>
+          <div class="stat-label">Tahun Pengalaman</div>
+          <div class="stat-sub">Sejak berdiri 2022</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-n" data-target="2400" data-suffix="+" data-format="k">100.000<sup>+</sup></div>
+          <div class="stat-label">Lulusan Berhasil</div>
+          <div class="stat-sub">Tersebar di seluruh Jepang</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-n" data-target="85">100<sup>+</sup></div>
+          <div class="stat-label">Mitra Perusahaan</div>
+          <div class="stat-sub">Di 12 prefektur Jepang</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-n" data-target="94">99<sup>%</sup></div>
+          <div class="stat-label">Tingkat Penempatan</div>
+          <div class="stat-sub">Tertinggi di kelasnya</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     SECTION 3 — PROGRAMS
+================================================================ -->
+<section id="programs">
+  <div class="prog-head reveal">
+    <div class="s-tag">Program Pelatihan</div>
+    <h2 class="s-title">Pilih Program yang Tepat<br>untuk Anda</h2>
+    <p class="s-lead">Program pelatihan komprehensif kami dirancang untuk membekali Anda dengan kemampuan bahasa, budaya, dan keahlian teknis agar siap berkarir di Jepang.</p>
+  </div>
+
+  <div class="prog-grid">
+    <!-- Program 1 -->
+    <div class="prog-card reveal">
+      <div class="prog-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="prog-tag">Level Pemula (N5 - N4)</div>
+      <h3 class="prog-title">Pelatihan Bahasa Jepang</h3>
+      <p class="prog-desc">Membekali peserta dengan dasar-dasar bahasa Jepang. Peserta mampu memahami percakapan sehari-hari sederhana dan membaca teks pendek.</p>
+      <ul class="prog-features">
+        <li>Hiragana, Katakana &amp; Kanji dasar</li>
+        <li>Tata Bahasa sederhana (Bunpou dasar)</li>
+        <li>Kosakata sehari-hari</li>
+        <li>Percakapan dasar (salam &amp; perkenalan)</li>
+      </ul>
+    </div>
+
+    <!-- Program 2 -->
+    <div class="prog-card reveal d1">
+      <div class="prog-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="prog-tag">Persiapan Ujian</div>
+      <h3 class="prog-title">Persiapan JLPT / JFT &amp; SSW</h3>
+      <p class="prog-desc">Membantu peserta mencapai target kelulusan ujian JLPT/JFT &amp; SSW dengan tingkat kelulusan tinggi.</p>
+      <ul class="prog-features">
+        <li>Strategi menjawab soal ujian</li>
+        <li>Latihan mendengarkan (Listening)</li>
+        <li>Latihan soal bacaan &amp; tata bahasa</li>
+        <li>Simulasi tes (Try Out) rutin</li>
+      </ul>
+    </div>
+
+    <!-- Program 3 -->
+    <div class="prog-card reveal d2">
+      <div class="prog-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="prog-tag">Budaya &amp; Etika</div>
+      <h3 class="prog-title">Tata Krama &amp; Etos Kerja</h3>
+      <p class="prog-desc">Peserta memiliki mental dan sikap kerja yang baik sehingga mudah untuk beradaptasi di lingkungan baru.</p>
+      <ul class="prog-features">
+        <li>Cara menyapa &amp; berkomunikasi</li>
+        <li>Penggunaan bahasa hormat (Keigo)</li>
+        <li>Etika kerja &amp; Disiplin waktu</li>
+        <li>Tanggung jawab &amp; semangat ganbatte</li>
+      </ul>
+    </div>
+
+    <!-- Program 4 -->
+    <div class="prog-card reveal">
+      <div class="prog-icon">
+        <svg viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="prog-tag">Sistem Perusahaan</div>
+      <h3 class="prog-title">Sistem Kerja di Jepang</h3>
+      <p class="prog-desc">Pemahaman tentang bagaimana sistem dan lingkungan kerja beroperasi di perusahaan-perusahaan Jepang.</p>
+      <ul class="prog-features">
+        <li>Struktur organisasi perusahaan</li>
+        <li>Sistem Senpai-Kohai (Senior-Junior)</li>
+        <li>Kebijakan jam kerja &amp; budaya rapat</li>
+        <li>Problem solving &amp; kerja tim (Hou-Ren-So)</li>
+      </ul>
+    </div>
+
+    <!-- Program 5 -->
+    <div class="prog-card reveal d1">
+      <div class="prog-icon">
+        <svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke-linecap="round"/></svg>
+      </div>
+      <div class="prog-tag">Bidang Pekerjaan SSW</div>
+      <h3 class="prog-title">Bahasa Jepang Khusus Bidang</h3>
+      <p class="prog-desc">Fokus pada istilah dan praktik bahasa untuk sektor pekerjaan spesifik agar siap kerja di bidang masing-masing.</p>
+      <ul class="prog-features">
+        <li>Kosakata teknis/khusus bidang</li>
+        <li>Praktik kerja sesuai bidang</li>
+        <li>Persiapan wawancara kerja (Mensetsu)</li>
+        <li>Pemahaman SOP keselamatan kerja</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     SECTION 4 — GALLERY
+================================================================ -->
+<section id="gallery">
+  <div class="gallery-top reveal">
+    <div>
+      <div class="s-tag">Galeri</div>
+      <h2 class="s-title">Kegiatan<br>Pelatihan Kami</h2>
+    </div>
+  </div>
+  <!-- Masonry gallery — 12 tampil, sisanya tersembunyi, bisa dibuka semua -->
+  <div class="gallery-masonry reveal" id="galleryMasonry">
+
+    <div class="g-item"><img src="assets/Galeri/galeri-001.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+    <div class="g-item"><img src="assets/Galeri/galeri-002.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+    <div class="g-item"><img src="assets/Galeri/galeri-003.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+    <div class="g-item"><img src="assets/Galeri/galeri-004.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+    <div class="g-item"><img src="assets/Galeri/galeri-005.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+    <div class="g-item"><img src="assets/Galeri/galeri-006.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+    <!-- Foto tambahan (tersembunyi) -->
+    <div class="gallery-more" id="galleryMore">
+      <div class="g-item"><img src="assets/Galeri/galeri-007.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-008.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-009.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-010.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-011.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-012.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-013.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-014.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-015.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-016.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-017.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-018.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-019.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-020.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-021.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-022.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-023.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-024.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-025.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-026.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-027.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-028.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-029.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-030.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-031.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-032.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-033.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-034.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-035.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-036.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-037.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-038.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-039.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-040.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-041.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-042.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-043.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-045.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-046.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-047.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-048.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-049.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-050.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-051.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-054.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-055.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-056.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-057.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-058.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-059.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-060.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-061.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-062.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-063.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-064.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-065.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-066.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-067.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-068.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-069.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-070.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-071.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-072.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-073.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-074.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-075.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-076.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-077.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-078.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-079.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-080.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-081.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-082.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-083.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-084.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-085.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-086.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-087.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-088.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-089.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-090.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-091.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-092.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-093.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-094.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-095.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-096.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-097.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-098.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-099.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-100.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-101.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-102.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-103.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-104.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-105.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-106.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-107.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-108.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-109.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-110.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-111.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-112.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-113.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-114.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-115.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-116.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-117.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-118.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-119.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-120.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-121.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-122.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-123.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-124.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+      <div class="g-item"><img src="assets/Galeri/galeri-125.jpg" alt="Kegiatan LPK ARK JINZAI SOLUSI" loading="lazy"><div class="g-overlay"><div class="g-overlay-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg></div></div></div>
+    </div><!-- /gallery-more -->
+
+  </div><!-- /gallery-masonry -->
+
+  <!-- Tombol lihat semua -->
+  <div class="gallery-show-btn">
+    <button class="btn-gallery-more" id="btnGalleryMore">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h16M4 18h16" stroke-linecap="round"/></svg>
+      Lihat Semua Foto (122)
+    </button>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="galeriLightbox">
+  <span class="lb-close" id="lbClose">&times;</span>
+  <span class="lb-nav lb-prev" id="lbPrev">&#8249;</span>
+  <img id="lbImg" src="" alt="Galeri" />
+  <span class="lb-nav lb-next" id="lbNext">&#8250;</span>
+</div>
+
+<!-- ================================================================
+     SECTION 5 — LEGAL / IZIN LEMBAGA
+================================================================ -->
+<section id="legal">
+  <div class="legal-head reveal">
+    <div class="s-tag">Legalitas</div>
+    <h2 class="s-title">Izin-Izin Lembaga</h2>
+    <p class="legal-sub">
+      Dokumen legalitas resmi LPK ARK JINZAI SOLUSI.
+    </p>
+  </div>
+
+  <div class="legal-grid">
+    <!-- Grup 1: Halaman 33-35 -->
+    <div class="legal-card reveal">
+      <div class="legal-imgs">
+        <a href="assets/legal/izin-33.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-33.png" alt="Izin 33" loading="lazy" /></a>
+        <a href="assets/legal/izin-34.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-34.png" alt="Izin 34" loading="lazy" /></a>
+        <a href="assets/legal/izin-35.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-35.png" alt="Izin 35" loading="lazy" /></a>
+      </div>
+      <div class="legal-caption">IZIN KEMNAKER</div>
+    </div>
+
+    <!-- Single: Halaman 36 -->
+    <div class="legal-card reveal d1">
+      <div class="legal-imgs">
+        <a href="assets/legal/izin-36.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-36.png" alt="Izin 36" loading="lazy" /></a>
+        <a href="assets/legal/izin-37.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-37.png" alt="Izin 37" loading="lazy" /></a>
+        <a href="assets/legal/izin-38.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-38.png" alt="Izin 38" loading="lazy" /></a>
+        <a href="assets/legal/izin-39.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-39.png" alt="Izin 39" loading="lazy" /></a>
+        <a href="assets/legal/izin-40.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-40.png" alt="Izin 40" loading="lazy" /></a>
+      </div>
+      <div class="legal-caption">NIB</div>
+    </div>
+
+    <!-- Grup 3: Halaman 41-42 -->
+    <div class="legal-card reveal d2">
+      <div class="legal-imgs">
+        <a href="assets/legal/izin-41.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-41.png" alt="Izin 41" loading="lazy" /></a>
+        <a href="assets/legal/izin-42.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-42.png" alt="Izin 42" loading="lazy" /></a>
+      </div>
+      <div class="legal-caption">KEMENKUMHAM</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     SECTION 6 — PARTNERS
+================================================================ -->
+<section id="partners">
+  <div class="partners-head reveal">
+    <div class="s-tag">Mitra Perusahaan</div>
+    <h2 class="s-title">Dipercaya Perusahaan Terkemuka Jepang</h2>
+  </div>
+
+  <div class="partners-row reveal d1" id="mitraGrid"></div>
+</section>
+
+<!-- ================================================================
+     SECTION 7 — TESTIMONIALS
+================================================================ -->
+<section id="testimonials">
+  <div class="testi-head reveal">
+    <div class="s-tag">Testimoni</div>
+    <h2 class="s-title">Cerita Sukses Alumni Kami</h2>
+  </div>
+
+  <div class="testi-wrap reveal d1">
+    <div class="testi-nav prev" id="testiPrev">&#8249;</div>
+    <div class="testi-nav next" id="testiNext">&#8250;</div>
+    <div class="testi-track" id="testiTrack">
+      
+      <!-- 1 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Pelatihan keperawatan (Kaigo) di sini sangat detail dan sesuai dengan standar di Jepang. Saya jadi lebih percaya diri saat bekerja. Terima kasih banyak!</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#0B6B2C,#064A1E)">NH</div>
+          <div>
+            <div class="testi-name">Nurul Hikmah</div>
+            <div class="testi-role">Perawat · Asukaru, Nagoya</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Tidak hanya bahasa, tapi etika dan budaya kerja Jepang diajarkan dengan sangat baik. Sangat membantu adaptasi saya di fasilitas kesehatan di Nagoya.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#A68800,#EFBF04)">FT</div>
+          <div>
+            <div class="testi-name">Faturahma</div>
+            <div class="testi-role">Perawat · Asukaru, Nagoya</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Awalnya saya ragu bisa bekerja sebagai perawat di Jepang, tapi berkat bimbingan intensif dari para sensei, saya berhasil meraih mimpi saya.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#374151,#111827)">NR</div>
+          <div>
+            <div class="testi-name">Nurapriliana</div>
+            <div class="testi-role">Perawat · Asukaru, Nagoya</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Pembekalan fisik dan bahasa Jepang sangat seimbang. Bekerja di bidang pengaspalan tentu butuh fisik kuat dan instruksi kerja yang jelas. Sangat bermanfaat!</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#0B6B2C,#064A1E)">MA</div>
+          <div>
+            <div class="testi-name">Muhammad Afif</div>
+            <div class="testi-role">Pengaspalan · KLAPA, Yamaguchi</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Proses pengurusan dokumen lancar dan sangat transparan. Kini saya sudah bekerja dengan nyaman di Jepang. Terima kasih ARK JINZAI SOLUSI.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#A68800,#EFBF04)">KS</div>
+          <div>
+            <div class="testi-name">Kristo Silvester Manik</div>
+            <div class="testi-role">Pemasangan Atap · Sakai Kawara, Iwate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Saya sangat merekomendasikan lembaga ini. Materi konstruksi diajarkan sesuai standar keselamatan Jepang yang sangat ketat.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#374151,#111827)">MR</div>
+          <div>
+            <div class="testi-name">Muhammad Randi Julianto</div>
+            <div class="testi-role">Konstruksi Bekisting · Satou Dokou, Akita</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Pilihan yang tepat memilih lembaga ini. Banyak tips dan trik yang diberikan agar kami bisa cepat beradaptasi dengan iklim dan kehidupan di Jepang.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#0B6B2C,#064A1E)">BH</div>
+          <div>
+            <div class="testi-name">Baehaki</div>
+            <div class="testi-role">Pemasangan Atap · Sakai Kawara, Iwate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Dari nol tidak bisa bahasa Jepang sama sekali sampai akhirnya bisa bekerja di perusahaan impian. Cara mengajarnya luar biasa.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#A68800,#EFBF04)">GR</div>
+          <div>
+            <div class="testi-name">Gifar Ramadhan</div>
+            <div class="testi-role">Konstruksi Bekisting · Satou Dokou, Akita</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Terima kasih telah membimbing saya menjadi tenaga kerja yang kompeten. Pengetahuan bahasa dan teknis sangat membantu pekerjaan bekisting saya.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#374151,#111827)">RR</div>
+          <div>
+            <div class="testi-name">Riki Ramadan</div>
+            <div class="testi-role">Konstruksi Bekisting · Iseyagumi, Hokkaido</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Lembaganya sangat profesional dan peduli terhadap siswanya. Bahkan ketika kami sudah berangkat ke Jepang, komunikasi tetap terjalin baik.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#0B6B2C,#064A1E)">AA</div>
+          <div>
+            <div class="testi-name">Adi Ardiansyah</div>
+            <div class="testi-role">Konstruksi Bekisting · Satou Dokou, Akita</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Materi teknis benar-benar disiapkan sesuai apa yang akan dikerjakan di lapangan nanti. Jadi begitu sampai Hokkaido, saya tidak kaget lagi.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#A68800,#EFBF04)">MP</div>
+          <div>
+            <div class="testi-name">Muhammad Pahrul Rozi</div>
+            <div class="testi-role">Konstruksi Bekisting · Iseyagumi, Hokkaido</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p class="testi-body">Bekerja di Jepang menjadi lebih mudah berkat persiapan matang di sini. Dukungan para instruktur benar-benar memberikan motivasi lebih bagi kami.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#374151,#111827)">JE</div>
+          <div>
+            <div class="testi-name">Jefri Efendi</div>
+            <div class="testi-role">Konstruksi Bekisting · Iseyagumi, Hokkaido</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     SECTION 8 — FOOTER
+================================================================ -->
+
+<!-- CTA Band -->
+<div class="footer-cta">
+  <div class="footer-cta-inner">
+    <div class="footer-cta-left">
+      <div class="footer-cta-label">Kesempatan Emas Menanti</div>
+      <h3 class="footer-cta-title">Jangan Lewatkan<br>Kesempatan <em>Emas</em> Ini!<br>Yuk Gabung!</h3>
+      <p class="footer-cta-sub">Daftarkan diri Anda sekarang melalui link atau scan QR di samping.</p>
+      <a href="https://forms.gle/hBiBBujfuPVLugC48" target="_blank" class="footer-cta-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        forms.gle/hBiBBujfuPVLugC48
+      </a>
+    </div>
+    <div class="footer-cta-right">
+      <div class="footer-cta-qr">
+        <img src="assets/qr/qr-daftar.png" alt="QR Pendaftaran"
+             onerror="this.parentElement.style.background='rgba(255,255,255,.15)';this.style.display='none'">
+      </div>
+      <span class="footer-cta-scan">Scan QR untuk daftar</span>
+    </div>
+  </div>
+</div>
+
+<!-- Main Footer -->
+<footer id="contact">
+  <div class="footer-grid">
+
+    <!-- Col 1: Brand + Social -->
+    <div>
+      <p class="f-desc">LPK ARK JINZAI SOLUSI — lembaga pelatihan kerja ke Jepang terpercaya. Membantu tenaga kerja Indonesia berkarir profesional di Jepang sejak 2012.</p>
+
+      <div class="f-col-title">Ikuti Kami</div>
+      <div class="f-social-handles">
+        <div class="f-handle-row">
+          <div class="f-handle-icon fb">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </div>
+          <span class="f-handle-name">@arkjinzaisolusi_jkt</span>
+        </div>
+        <div class="f-handle-row">
+          <div class="f-handle-icon ig">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <span class="f-handle-name">@arkjinzaisolusi_jkt</span>
+        </div>
+        <div class="f-handle-row">
+          <div class="f-handle-icon tt">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.74a4.85 4.85 0 01-1-.05z"/></svg>
+          </div>
+          <span class="f-handle-name">@arkjinzaisolusi_jkt</span>
+        </div>
+        <div class="f-handle-row">
+          <div class="f-handle-icon yt">
+            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </div>
+          <span class="f-handle-name">@higashiwakaiindonesia</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 2: Alamat Kantor -->
+    <div>
+      <div class="f-col-title">Alamat Kantor</div>
+      <div class="f-addr-grid">
+
+        <div class="f-addr-region">
+          <div class="f-addr-region-title">Lombok</div>
+          <ul class="f-addr-list">
+            <li>Jl. Raya Gerepek, Desa Jango, Kec. Janapria, Kab. Lombok Tengah, NTB 83554</li>
+            <li>Dusun Menceh, Desa Menceh, Kec. Sakra Timur, Kab. Lombok Timur, NTB 83674</li>
+          </ul>
+        </div>
+
+        <div class="f-addr-region">
+          <div class="f-addr-region-title">Bali</div>
+          <ul class="f-addr-list">
+            <li>Jl. Tukad Badung XVI A No. 9, Renon, Denpasar Selatan, Bali 80226</li>
+            <li>Jl. Goa Gong No. 6, Jimbaran, Kec. Kuta Selatan, Kab. Badung, Bali 80361</li>
+          </ul>
+        </div>
+
+        <div class="f-addr-region" style="grid-column: span 2;">
+          <div class="f-addr-region-title">Jakarta</div>
+          <ul class="f-addr-list">
+            <li>Jl. SMEA 6 No.53-5, RT.5/RW.9, Cawang, Kec. Kramat Jati, Jakarta Timur 13630</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Col 3: Hubungi & Link -->
+    <div>
+      <div class="f-col-title">Hubungi Kami</div>
+      <div class="f-wa-list">
+        <a href="https://wa.me/6281246508861" target="_blank" class="f-wa-item" style="text-decoration:none">
+          <div class="f-wa-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.558 4.116 1.532 5.844L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.376l-.36-.214-3.724.977.994-3.63-.235-.373A9.79 9.79 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+          </div>
+          <span class="f-wa-num">0812 4650 8861</span>
+        </a>
+        <a href="https://wa.me/6287868535102" target="_blank" class="f-wa-item" style="text-decoration:none">
+          <div class="f-wa-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.558 4.116 1.532 5.844L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.376l-.36-.214-3.724.977.994-3.63-.235-.373A9.79 9.79 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+          </div>
+          <span class="f-wa-num">0878 6853 5102</span>
+        </a>
+        <a href="https://wa.me/6281216164754" target="_blank" class="f-wa-item" style="text-decoration:none">
+          <div class="f-wa-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.558 4.116 1.532 5.844L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.376l-.36-.214-3.724.977.994-3.63-.235-.373A9.79 9.79 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+          </div>
+          <span class="f-wa-num">0812 1616 4754</span>
+        </a>
+      </div>
+
+      <div class="f-col-title" style="margin-top:24px">Navigasi</div>
+      <ul class="f-links">
+        <li><a href="#about">Tentang Kami</a></li>
+        <li><a href="#programs">Program Pelatihan</a></li>
+        <li><a href="#gallery">Galeri</a></li>
+        <li><a href="#legal">Legalitas</a></li>
+        <li><a href="#partners">Mitra Perusahaan</a></li>
+        <li><a href="#testimonials">Testimoni</a></li>
+      </ul>
+    </div>
+
+  </div><!-- /footer-grid -->
+
+  <div class="footer-bottom">
+    <p class="f-copy">© 2025 LPK ARK JINZAI SOLUSI. Semua hak dilindungi undang-undang.</p>
+  </div>
+</footer>
+
+<!-- ================================================================
+     SCRIPTS
+================================================================ -->
+<script>
+/* ================================================================
+   ✏️  KONFIGURASI MITRA PERUSAHAAN
+   Tambah/hapus/edit daftar mitra di sini.
+   - file  : nama file PNG di folder assets/mitra/  (PERSIS sama)
+   - nama  : nama perusahaan yang ditampilkan di bawah logo
+================================================================ */
+const MITRA_LIST = [
+  { file: "ARNEST ONE.png",  nama: "ARNEST ONE"  },
+  { file: "HIGASHI WAKAI INDONESIA.png",    nama: "HIGASHI WAKAI INDONESIA"    },
+  { file: "HUMAN LIFE.png",            nama: "HUMAN LIFE" },
+  { file: "KANA SAKURA.png",             nama: "KANA SAKURA"       },
+  { file: "KAWASAKI KENKO Co. Ltd.png",       nama: "KAWASAKI KENKO Co. Ltd."       },
+  { file: "TOYO KYOUDO KUMIAI.png",          nama: "TOYO KYOUDO KUMIAI" },
+  { file: "YAMADA Co., Ltd.png",          nama: "YAMADA Co., Ltd." },
+  { file: "YAMATO JIGYO KYODO KUMIAI.png",          nama: "YAMATO JIGYO KYODO KUMIAI" },
+];
+
+(function renderMitra() {
+  const grid = document.getElementById('mitraGrid');
+  if (!grid) return;
+  grid.innerHTML = MITRA_LIST.map(m => `
+    <div class="p-item">
+      <img
+        src="assets/mitra/${m.file}"
+        alt="${m.nama}"
+        class="p-logo-img"
+        onerror="this.style.opacity='0'"
+      >
+      <span class="p-logo-name">${m.nama}</span>
+    </div>
+  `).join('');
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ----------------------------------------------------------------
+   THREE.JS — 3D LOGO FLOAT + SAKURA
+---------------------------------------------------------------- */
+(function initThree() {
+  const canvas  = document.getElementById('toriiCanvas');
+  const parent  = canvas.parentElement;
+  const W = parent.offsetWidth  || 480;
+  const H = parent.offsetHeight || 520;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 200);
+  camera.position.set(0, 0, 8);
+  camera.lookAt(0, 0, 0);
+
+  /* Lighting */
+  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+  const keyL = new THREE.DirectionalLight(0xffeef4, 0.8);
+  keyL.position.set(4, 6, 5);
+  scene.add(keyL);
+  const fillL = new THREE.DirectionalLight(0xfff0b0, 0.4);
+  fillL.position.set(-5, -2, 3);
+  scene.add(fillL);
+
+
+  /* ── 3D LOGO (PNG TEXTURE) ──────────────────────────────────── */
+  let logoGroup = null;
+
+  const loader = new THREE.TextureLoader();
+  loader.load(
+    'assets/3D/ARK 3D.png',
+    function (tex) {
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.generateMipmaps = true;
+
+      const img    = tex.image;
+      const aspect = img.width / img.height;
+      const logoH  = 4.2;
+      const logoW  = logoH * aspect;
+
+      logoGroup = new THREE.Group();
+
+      /* Shadow layer (slight offset, dark, blurred via opacity) */
+      const shadowM = new THREE.Mesh(
+        new THREE.PlaneGeometry(logoW * 1.04, logoH * 1.04),
+        new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false })
+      );
+      shadowM.position.set(0.06, -0.06, -0.08);
+      logoGroup.add(shadowM);
+
+      /* Main logo plane */
+      const mainM = new THREE.Mesh(
+        new THREE.PlaneGeometry(logoW, logoH),
+        new THREE.MeshBasicMaterial({ map: tex, transparent: true, alphaTest: 0.04, side: THREE.DoubleSide })
+      );
+      logoGroup.add(mainM);
+
+      /* Slight depth layers for a faux-3D extrude feel */
+      for (let d = 1; d <= 4; d++) {
+        const layer = new THREE.Mesh(
+          new THREE.PlaneGeometry(logoW, logoH),
+          new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.07 - d * 0.015, side: THREE.DoubleSide, depthWrite: false })
+        );
+        layer.position.z = -d * 0.05;
+        logoGroup.add(layer);
+      }
+
+      scene.add(logoGroup);
+    },
+    undefined,
+    function () {
+      /* Fallback placeholder if logo file not found yet */
+      const ph = new THREE.Mesh(
+        new THREE.PlaneGeometry(3.6, 1.6),
+        new THREE.MeshBasicMaterial({ color: 0x0B6B2C, transparent: true, opacity: 0.15, side: THREE.DoubleSide })
+      );
+      logoGroup = new THREE.Group();
+      logoGroup.add(ph);
+      const txt = new THREE.Mesh(
+        new THREE.PlaneGeometry(3.0, 0.9),
+        new THREE.MeshBasicMaterial({ color: 0xEFBF04, transparent: true, opacity: 0.12, side: THREE.DoubleSide })
+      );
+      logoGroup.add(txt);
+      scene.add(logoGroup);
+    }
+  );
+
+  /* ── SAKURA PETALS ─────────────────────────────────────────── */
+  const petals = [];
+  const petalMats = [
+    new THREE.MeshPhongMaterial({ color: 0xFFB7C5, side: THREE.DoubleSide, transparent: true, opacity: 0.92 }),
+    new THREE.MeshPhongMaterial({ color: 0xFFC8D4, side: THREE.DoubleSide, transparent: true, opacity: 0.88 }),
+    new THREE.MeshPhongMaterial({ color: 0xFFD1DA, side: THREE.DoubleSide, transparent: true, opacity: 0.85 }),
+  ];
+
+  function makePetalShape() {
+    const s = new THREE.Shape();
+    s.moveTo(0, 0);
+    s.bezierCurveTo( 0.07,  0.09,  0.13, 0.16,  0, 0.24);
+    s.bezierCurveTo(-0.13,  0.16, -0.07, 0.09,  0, 0);
+    return s;
+  }
+  const petalShape = makePetalShape();
+  const petalGeo   = new THREE.ShapeGeometry(petalShape, 10);
+
+  for (let i = 0; i < 22; i++) {
+    const mat   = petalMats[i % 3];
+    const mesh  = new THREE.Mesh(petalGeo, mat);
+    const angle = Math.random() * Math.PI * 2;
+    const r     = 1.5 + Math.random() * 2.8;
+    mesh.position.set(
+      Math.cos(angle) * r,
+      (Math.random() - 0.5) * 5.5 + 0.5,
+      (Math.random() - 0.5) * 2.8 - 1.2
+    );
+    mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+    const sc = 0.55 + Math.random() * 0.9;
+    mesh.scale.setScalar(sc);
+    mesh.userData = {
+      rotX:   (Math.random() - 0.5) * 0.018,
+      rotZ:   (Math.random() - 0.5) * 0.014,
+      floatA: 0.28 + Math.random() * 0.55,
+      floatS: 0.9 + Math.random() * 1.4,
+      floatO: Math.random() * Math.PI * 2,
+      driftX: (Math.random() - 0.5) * 0.006,
+      origY:  mesh.position.y
+    };
+    scene.add(mesh);
+    petals.push(mesh);
+  }
+
+  /* ── AMBIENT PARTICLES ─────────────────────────────────────── */
+  const pGeo   = new THREE.BufferGeometry();
+  const pCount = 80;
+  const pos    = new Float32Array(pCount * 3);
+  for (let i = 0; i < pCount; i++) {
+    pos[i*3]   = (Math.random() - 0.5) * 10;
+    pos[i*3+1] = (Math.random() - 0.5) * 8;
+    pos[i*3+2] = (Math.random() - 0.5) * 5 - 2;
+  }
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const pMat  = new THREE.PointsMaterial({ color: 0xFFB7C5, size: 0.035, transparent: true, opacity: 0.5 });
+  scene.add(new THREE.Points(pGeo, pMat));
+
+  /* ── ANIMATE ───────────────────────────────────────────────── */
+  let t = 0;
+  (function loop() {
+    requestAnimationFrame(loop);
+    t += 0.01;
+
+    /* 3D logo float + gentle swing */
+    if (logoGroup) {
+      logoGroup.rotation.y  =  Math.sin(t * 0.38) * 0.22;
+      logoGroup.rotation.x  =  Math.sin(t * 0.27) * 0.05;
+      logoGroup.position.y  =  Math.sin(t * 0.44) * 0.12;
+    }
+
+    petals.forEach(p => {
+      const d = p.userData;
+      p.rotation.x += d.rotX;
+      p.rotation.z += d.rotZ;
+      p.position.y  = d.origY + Math.sin(t * d.floatS + d.floatO) * d.floatA;
+      p.position.x += d.driftX;
+      if (p.position.x >  4.5) p.position.x = -4.5;
+      if (p.position.x < -4.5) p.position.x =  4.5;
+    });
+
+    renderer.render(scene, camera);
+  })();
+
+  /* ── RESIZE ─────────────────────────────────────────────────── */
+  window.addEventListener('resize', () => {
+    const nW = parent.offsetWidth || 480;
+    const nH = parent.offsetHeight || 520;
+    renderer.setSize(nW, nH);
+    camera.aspect = nW / nH;
+    camera.updateProjectionMatrix();
+  });
+})();
+
+/* ----------------------------------------------------------------
+   NAVBAR SCROLL EFFECT
+---------------------------------------------------------------- */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ----------------------------------------------------------------
+   SCROLL REVEAL
+---------------------------------------------------------------- */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ----------------------------------------------------------------
+   COUNTER ANIMATION
+---------------------------------------------------------------- */
+function animCounter(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const isK    = el.dataset.format === 'k';
+  const suffix = el.querySelector('sup') ? el.querySelector('sup').outerHTML : '';
+  const dur    = 1800;
+  let  start   = null;
+
+  function step(ts) {
+    if (!start) start = ts;
+    const prog   = Math.min((ts - start) / dur, 1);
+    const eased  = 1 - Math.pow(1 - prog, 3);
+    const cur    = Math.floor(eased * target);
+    if (isK) {
+      el.innerHTML = (cur >= 1000 ? (cur / 1000).toFixed(1) + 'K' : cur) + suffix;
+    } else {
+      el.innerHTML = cur + suffix;
+    }
+    if (prog < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.currentTarget.querySelectorAll('[data-target]').forEach(animCounter);
+      counterObs.disconnect();
+    }
+  });
+}, { threshold: 0.4 });
+const statsPanel = document.querySelector('.stats-panel');
+if (statsPanel) counterObs.observe(statsPanel);
+
+/* ----------------------------------------------------------------
+   TESTIMONIAL SLIDER
+---------------------------------------------------------------- */
+(function() {
+  const track = document.getElementById('testiTrack');
+  const btnPrev = document.getElementById('testiPrev');
+  const btnNext = document.getElementById('testiNext');
+  
+  if (!track || !btnPrev || !btnNext) return;
+
+  function getCardWidth() {
+    const card = track.querySelector('.testi-card');
+    return card ? card.offsetWidth + 26 : 406; // width + gap
+  }
+
+  function scrollNext() {
+    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
+      track.scrollTo({ left: 0, behavior: 'smooth' }); // Loop back to start
+    } else {
+      track.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+    }
+  }
+
+  function scrollPrev() {
+    track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+  }
+
+  btnNext.addEventListener('click', scrollNext);
+  btnPrev.addEventListener('click', scrollPrev);
+
+  // Auto scroll
+  let autoScroll = setInterval(scrollNext, 4000);
+
+  // Pause on hover
+  track.parentElement.addEventListener('mouseenter', () => clearInterval(autoScroll));
+  track.parentElement.addEventListener('mouseleave', () => {
+    autoScroll = setInterval(scrollNext, 4000);
+  });
+  // Pause on touch
+  track.parentElement.addEventListener('touchstart', () => clearInterval(autoScroll), {passive: true});
+  track.parentElement.addEventListener('touchend', () => {
+    autoScroll = setInterval(scrollNext, 4000);
+  });
+})();
+
+/* ----------------------------------------------------------------
+   GALLERY — LIGHTBOX & SHOW MORE
+---------------------------------------------------------------- */
+(function () {
+  const lb      = document.getElementById('galeriLightbox');
+  const lbImg   = document.getElementById('lbImg');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev  = document.getElementById('lbPrev');
+  const lbNext  = document.getElementById('lbNext');
+  const btnMore = document.getElementById('btnGalleryMore');
+  const moreWrap = document.getElementById('galleryMore');
+
+  /* Collect all g-item images */
+  let allItems = [];
+  let curIdx   = 0;
+
+  function buildItems() {
+    allItems = Array.from(document.querySelectorAll('.gallery-masonry .g-item img'));
+  }
+
+  function openLb(idx) {
+    curIdx = idx;
+    lbImg.src = allItems[curIdx].src;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function showNext() { curIdx = (curIdx + 1) % allItems.length; lbImg.src = allItems[curIdx].src; }
+  function showPrev() { curIdx = (curIdx - 1 + allItems.length) % allItems.length; lbImg.src = allItems[curIdx].src; }
+
+  /* Attach click to initially visible items */
+  function attachClicks() {
+    document.querySelectorAll('.gallery-masonry .g-item').forEach((item, idx) => {
+      if (!item.dataset.lbBound) {
+        item.dataset.lbBound = '1';
+        item.addEventListener('click', () => { buildItems(); openLb(idx); });
+      }
+    });
+  }
+  attachClicks();
+
+  lbClose.addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  lbNext.addEventListener('click', e => { e.stopPropagation(); showNext(); });
+  lbPrev.addEventListener('click', e => { e.stopPropagation(); showPrev(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') showNext();
+    if (e.key === 'ArrowLeft')  showPrev();
+    if (e.key === 'Escape')     closeLb();
+  });
+
+  /* Show more button */
+  btnMore.addEventListener('click', () => {
+    moreWrap.style.display = 'contents';
+    btnMore.parentElement.style.display = 'none';
+    attachClicks();
+    buildItems();
+  });
+})();
+
+/* ----------------------------------------------------------------
+   HAMBURGER MENU
+---------------------------------------------------------------- */
+const hamburgerBtn  = document.getElementById('hamburgerBtn');
+const mobileDrawer  = document.getElementById('mobileDrawer');
+
+function openDrawer() {
+  hamburgerBtn.classList.add('open');
+  mobileDrawer.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  hamburgerBtn.classList.remove('open');
+  mobileDrawer.classList.remove('open');
+  document.body.style.overflow = '';
+}
+hamburgerBtn.addEventListener('click', () => {
+  hamburgerBtn.classList.contains('open') ? closeDrawer() : openDrawer();
+});
+
+/* Close drawer on outside click */
+document.addEventListener('click', e => {
+  if (mobileDrawer.classList.contains('open') &&
+      !mobileDrawer.contains(e.target) &&
+      !hamburgerBtn.contains(e.target)) {
+    closeDrawer();
+  }
+});
+
+/* Close drawer on scroll */
+window.addEventListener('scroll', () => {
+  if (mobileDrawer.classList.contains('open')) closeDrawer();
+}, { passive: true });
+
+/* Close drawer on resize back to desktop */
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) closeDrawer();
+});
+
+/* ----------------------------------------------------------------
+   SPLASH SCREEN
+---------------------------------------------------------------- */
+(function () {
+  const splash    = document.getElementById('splash');
+  const bar       = document.getElementById('splashBar');
+  const label     = document.getElementById('splashLabel');
+  const petalsWrap = document.getElementById('splashPetals');
+
+  /* Generate sakura petals */
+  const petalCount = 18;
+  for (let i = 0; i < petalCount; i++) {
+    const p = document.createElement('div');
+    p.className = 'splash-petal';
+    const size = 7 + Math.random() * 9;
+    p.style.cssText = [
+      `width:${size}px`, `height:${size}px`,
+      `left:${Math.random() * 100}%`,
+      `animation-duration:${4 + Math.random() * 6}s`,
+      `animation-delay:${Math.random() * 5}s`,
+      `opacity:0`,
+      `transform:rotate(${Math.random()*360}deg)`
+    ].join(';');
+    petalsWrap.appendChild(p);
+  }
+
+  /* Animated progress */
+  const savedLang = localStorage.getItem('preferredLang') || 'jp';
+  const labelsMap = {
+    id: ['Memuat…', 'Menyiapkan konten…', 'Hampir selesai…', 'Selamat datang!'],
+    en: ['Loading…', 'Preparing content…', 'Almost done…', 'Welcome!'],
+    jp: ['読み込み中…', 'コンテンツを準備中…', 'もうすぐ完了します…', 'ようこそ！']
+  };
+  const labels = labelsMap[savedLang];
+  let progress = 0;
+  const totalDuration = 2600; // ms total before dismiss
+  const interval = 30;
+  const steps = totalDuration / interval;
+  let step = 0;
+
+  const timer = setInterval(() => {
+    step++;
+    // Ease-out curve: fast start, slower near 100
+    progress = Math.min(100, Math.round((1 - Math.pow(1 - step / steps, 2.2)) * 100));
+    bar.style.width = progress + '%';
+
+    if (progress < 30)       label.textContent = labels[0];
+    else if (progress < 65)  label.textContent = labels[1];
+    else if (progress < 90)  label.textContent = labels[2];
+    else                     label.textContent = labels[3];
+
+    if (step >= steps) {
+      clearInterval(timer);
+      setTimeout(() => {
+        splash.classList.add('hide');
+        document.body.classList.remove('splash-open');
+        setTimeout(() => splash.remove(), 800);
+      }, 220);
+    }
+  }, interval);
+})();
+</script>
+<script src="assets/js/i18n.js"></script>
+</body>
+</html>
