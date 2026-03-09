@@ -944,30 +944,9 @@
       padding: 34px 28px;
       backdrop-filter: blur(12px);
       transition: background .3s;
-      display: flex; flex-direction: column; justify-content: space-between;
+      height: max-content;
     }
     .testi-card:hover { background: rgba(255,255,255,.1); }
-
-    .testi-nav {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 52px; height: 52px; border-radius: 50%;
-      background: rgba(255,255,255,.15);
-      border: 1px solid rgba(255,255,255,.3);
-      color: #fff; font-size: 32px; line-height: 1;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 2;
-      user-select: none;
-      transition: background .3s, transform .3s, border-color .3s;
-      box-shadow: 0 4px 12px rgba(0,0,0,.15);
-      backdrop-filter: blur(8px);
-    }
-    .testi-nav:hover { 
-      background: var(--navy-light); 
-      border-color: var(--navy-light);
-      transform: translateY(-50%) scale(1.1);
-    }
-    .testi-nav.prev { left: 16px; }
-    .testi-nav.next { right: 16px; }
 
     .testi-stars { color: #FFC107; font-size: 13px; letter-spacing: 2px; margin-bottom: 6px; }
     .testi-quote { font-size: 44px; line-height: 1; color: var(--red); opacity: .65; margin-bottom: 18px; }
@@ -1409,9 +1388,6 @@
 
       /* Testimonials */
       .testi-card { width: clamp(260px, 85vw, 400px); }
-      .testi-nav { width: 40px; height: 40px; font-size: 24px; }
-      .testi-nav.prev { left: 4px; }
-      .testi-nav.next { right: 4px; }
       .testi-wrap { padding: 0 24px; }
 
       /* Partners */
@@ -2045,6 +2021,9 @@
     <div class="legal-card reveal d1">
       <div class="legal-imgs">
         <a href="assets/legal/izin-36.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-36.png" alt="Izin 36" loading="lazy" /></a>
+        <a href="assets/legal/izin-38.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-38.png" alt="Izin 38" loading="lazy" /></a>
+        <a href="assets/legal/izin-39.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-39.png" alt="Izin 39" loading="lazy" /></a>
+        <a href="assets/legal/izin-40.png" target="_blank" rel="noopener noreferrer"><img src="assets/legal/izin-40.png" alt="Izin 40" loading="lazy" /></a>
       </div>
       <div class="legal-caption">NIB</div>
     </div>
@@ -2081,8 +2060,6 @@
   </div>
 
   <div class="testi-wrap reveal d1">
-    <div class="testi-nav prev" id="testiPrev">&#8249;</div>
-    <div class="testi-nav next" id="testiNext">&#8250;</div>
     <div class="testi-track" id="testiTrack">
       
       <!-- 1 -->
@@ -2674,10 +2651,8 @@ if (statsPanel) counterObs.observe(statsPanel);
 ---------------------------------------------------------------- */
 (function() {
   const track = document.getElementById('testiTrack');
-  const btnPrev = document.getElementById('testiPrev');
-  const btnNext = document.getElementById('testiNext');
   
-  if (!track || !btnPrev || !btnNext) return;
+  if (!track) return;
 
   function getCardWidth() {
     const card = track.querySelector('.testi-card');
@@ -2691,13 +2666,6 @@ if (statsPanel) counterObs.observe(statsPanel);
       track.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
     }
   }
-
-  function scrollPrev() {
-    track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
-  }
-
-  btnNext.addEventListener('click', scrollNext);
-  btnPrev.addEventListener('click', scrollPrev);
 
   // Auto scroll
   let autoScroll = setInterval(scrollNext, 4000);
